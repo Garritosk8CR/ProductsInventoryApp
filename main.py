@@ -21,3 +21,8 @@ class Product(HashModel):
 
     class Meta:
         database = redis_conn
+
+@app.get('/products')
+
+async def get_products():
+    return await Product.all_pks()
