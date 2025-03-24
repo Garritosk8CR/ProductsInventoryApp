@@ -29,6 +29,9 @@ class Product(HashModel):
         database = redis_conn
 
 @app.get('/products')
+def get_products():
+    return Product.all_pks()
 
-async def get_products():
-    return await Product.all_pks()
+@app.post('/products')
+def create_product(product: Product):
+    return product.save()
