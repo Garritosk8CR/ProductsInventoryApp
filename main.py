@@ -30,7 +30,20 @@ class Product(HashModel):
 
 @app.get('/products')
 def get_products():
-    return Product.all_pks()
+    return [format(pk) for pk in Product.all_pks()]
+
+@app.get('/products/{product_id}')
+def get_product(product_id: str):
+    return format(product_id)
+
+def format(pk: str):
+    product = Product.get(pk)
+    return {
+        'id': product.pk,
+        'name': product.name,
+        'price': product.price,
+        'quantity': product.quantity
+    }
 
 @app.post('/products')
 def create_product(product: Product):
