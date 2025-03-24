@@ -36,6 +36,10 @@ def get_products():
 def get_product(product_id: str):
     return format(product_id)
 
+@app.delete('/products/{product_id}')
+def delete_product(product_id: str):
+    return Product.delete(product_id)
+
 def format(pk: str):
     product = Product.get(pk)
     return {
