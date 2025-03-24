@@ -2,7 +2,7 @@ from typing import Union
 
 from fastapi import FastAPI
 
-from redis_om import get_redis_connection
+from redis_om import get_redis_connection, HashModel
 app = FastAPI()
 
 # Connect to Redis
@@ -10,14 +10,14 @@ app = FastAPI()
 redis_conn = get_redis_connection(
     host="redis-12894.c1.us-east1-2.gce.redns.redis-cloud.com",
     port=12894,
+    password="oUDjGzd2h2ljd6FyVIMdyvTp4gE3celk",
+    decode_responses=True
 )
 
+class Product(HashModel):
+    name: str
+    price: float
+    quantity: int
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+    class Meta:
+        database = redis_conn
